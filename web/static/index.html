@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="lofi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puff</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.24/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="min-h-screen bg-base-200">
+    <!-- 导航栏 -->
+    <div class="navbar bg-base-100 shadow-lg">
+        <div class="navbar-start">
+            <div class="dropdown">
+                <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"/>
+                    </svg>
+                </div>
+                <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                    <li><a id="nav-dashboard-mobile">仪表板</a></li>
+                    <li><a id="nav-domains-mobile">域名管理</a></li>
+                    <li><a id="nav-settings-mobile">设置</a></li>
+                </ul>
+            </div>
+            <a class="btn btn-ghost text-xl">Puff</a>
+        </div>
+        <div class="navbar-center hidden lg:flex">
+            <ul class="menu menu-horizontal px-1">
+                <li><a id="nav-dashboard" class="active">仪表板</a></li>
+                <li><a id="nav-domains">域名管理</a></li>
+                <li><a id="nav-settings">设置</a></li>
+            </ul>
+        </div>
+        <div class="navbar-end">
+            <button class="btn btn-ghost" id="logout-btn">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                </svg>
+                退出登录
+            </button>
+        </div>
+    </div>
+
+    <!-- 主要内容 -->
+    <div class="container mx-auto p-4">
+        <!-- 仪表板页面 -->
+        <div id="dashboard-page" class="page-content">
+            <!-- 统计卡片 -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <div class="stats shadow">
+                    <div class="stat">
+                        <div class="stat-figure text-primary">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                        </div>
+                        <div class="stat-title">总域名</div>
+                        <div class="stat-value text-primary" id="totalDomains">0</div>
+                        <div class="stat-desc">正在监控的域名数量</div>
+                    </div>
+                </div>
+
+                <div class="stats shadow">
+                    <div class="stat">
+                        <div class="stat-figure text-success">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <div class="stat-title">可注册</div>
+                        <div class="stat-value text-success" id="availableDomains">0</div>
+                        <div class="stat-desc">可以立即注册</div>
+                    </div>
+                </div>
+
+                <div class="stats shadow">
+                    <div class="stat">
+                        <div class="stat-figure text-error">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.732 15.5c-.77.833.192 2.5 1.732 2.5z"/>
+                            </svg>
+                        </div>
+                        <div class="stat-title">待删除</div>
+                        <div class="stat-value text-error" id="pendingDeleteDomains">0</div>
+                        <div class="stat-desc">进入抢注阶段</div>
+                    </div>
+                </div>
+
+                <div class="stats shadow">
+                    <div class="stat">
+                        <div class="stat-figure text-warning">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <div class="stat-title">赎回期</div>
+                        <div class="stat-value text-warning" id="redemptionDomains">0</div>
+                        <div class="stat-desc">可以赎回</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 监控控制面板 -->
+            <div class="card bg-base-100 shadow-xl mb-6">
+                <div class="card-body">
+                    <h2 class="card-title">监控控制</h2>
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                        <div class="flex items-center gap-2">
+                            <span class="text-sm">监控状态:</span>
+                            <div class="badge badge-lg" id="monitorStatus">未知</div>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <button class="btn btn-success" id="startMonitorBtn">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h8m2 2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v9a2 2 0 002 2z"/>
+                                </svg>
+                                启动监控
+                            </button>
+                            <button class="btn btn-warning" id="stopMonitorBtn">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                停止监控
+                            </button>
+                            <button class="btn btn-info" id="reloadBtn">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                </svg>
+                                重新加载
+                            </button>
+                            <button class="btn btn-secondary" id="testNotificationBtn">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                </svg>
+                                测试通知
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 域名列表 -->
+            <div class="card bg-base-100 shadow-xl">
+                <div class="card-body">
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
+                        <h2 class="card-title">域名列表</h2>
+                        <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+                            <div class="join flex-1 sm:flex-none">
+                                <input class="input input-bordered join-item flex-1 min-w-0" placeholder="搜索域名..." id="searchInput">
+                                <select class="select select-bordered join-item w-auto" id="statusFilter">
+                                    <option value="">所有状态</option>
+                                    <option value="available">可注册</option>
+                                    <option value="registered">已注册</option>
+                                    <option value="redemption">赎回期</option>
+                                    <option value="pending_delete">待删除</option>
+                                </select>
+                                <button class="btn join-item btn-primary" id="searchBtn">搜索</button>
+                            </div>
+                            <button class="btn btn-success w-full sm:w-auto" id="refreshBtn">刷新</button>
+                        </div>
+                    </div>
+
+                    <!-- 批量操作 -->
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <label class="flex items-center gap-2">
+                            <input type="checkbox" class="checkbox" id="selectAllCheckbox">
+                            <span class="text-sm">全选</span>
+                        </label>
+                        <button class="btn btn-sm btn-primary" id="checkSelectedBtn">检查选中</button>
+                        <button class="btn btn-sm btn-error" id="deleteSelectedBtn">删除选中</button>
+                    </div>
+
+                    <!-- 表格容器 -->
+                    <div class="overflow-x-auto table-container relative">
+                        <!-- 加载指示器 -->
+                        <div class="absolute inset-0 flex justify-center items-center bg-base-100/80 z-10" id="loadingIndicator" style="display: none;">
+                            <div class="flex flex-col items-center">
+                                <span class="loading loading-spinner loading-lg"></span>
+                                <span class="text-sm text-base-content/60 mt-2">加载中...</span>
+                            </div>
+                        </div>
+                        
+                        <table class="table table-zebra">
+                            <thead>
+                                <tr>
+                                    <th>选择</th>
+                                    <th>域名</th>
+                                    <th>状态</th>
+                                    <th>注册商</th>
+                                    <th>过期时间</th>
+                                    <th>最后检查</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="domainTableBody">
+                                <!-- 域名数据将通过JavaScript动态加载 -->
+                            </tbody>
+                        </table>
+
+                        <!-- 空状态 -->
+                        <div class="text-center py-8" id="emptyState" style="display: none;">
+                            <div class="text-6xl mb-4">[ ]</div>
+                            <h3 class="text-lg font-semibold mb-2">暂无域名数据</h3>
+                            <p class="text-base-content/60">请检查domains.yml文件或重新加载数据</p>
+                            <button class="btn btn-primary mt-4" id="addDomainBtn">添加域名</button>
+                        </div>
+                    </div>
+
+                    <!-- 分页控制 -->
+                    <div class="flex flex-col sm:flex-row justify-between items-center mt-6" id="paginationContainer" style="display: none;">
+                        <div class="text-sm text-base-content/60 mb-2 sm:mb-0">
+                            显示第 <span id="startIndex">1</span> - <span id="endIndex">10</span> 条，共 <span id="totalCount">0</span> 条记录
+                        </div>
+                        <div class="join">
+                            <button class="join-item btn btn-sm" id="prevPageBtn">上一页</button>
+                            <div class="join-item btn btn-sm btn-disabled" id="pageInfo">第 1 页</div>
+                            <button class="join-item btn btn-sm" id="nextPageBtn">下一页</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 域名管理页面 -->
+        <div id="domains-page" class="page-content hidden">
+            <div class="card bg-base-100 shadow-xl">
+                <div class="card-body">
+                    <h2 class="card-title mb-4">域名管理</h2>
+                    
+                    <!-- 添加域名表单 -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="card bg-base-200">
+                            <div class="card-body">
+                                <h3 class="card-title text-lg">添加单个域名</h3>
+                                <div class="form-control w-full">
+                                    <label class="label">
+                                        <span class="label-text">域名</span>
+                                    </label>
+                                    <input type="text" placeholder="example.com" class="input input-bordered w-full" id="singleDomainInput">
+                                </div>
+                                <div class="card-actions justify-end mt-4">
+                                    <button class="btn btn-primary" id="addSingleDomainBtn">添加域名</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card bg-base-200">
+                            <div class="card-body">
+                                <h3 class="card-title text-lg">批量添加域名</h3>
+                                <div class="form-control w-full">
+                                    <label class="label">
+                                        <span class="label-text">域名列表（每行一个）</span>
+                                    </label>
+                                    <textarea class="textarea textarea-bordered h-32" placeholder="example1.com&#10;example2.com&#10;example3.com" id="batchDomainInput"></textarea>
+                                </div>
+                                <div class="card-actions justify-end mt-4">
+                                    <button class="btn btn-primary" id="addBatchDomainsBtn">批量添加</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 已有域名列表 -->
+                    <div class="divider">已监控域名</div>
+                    <div class="overflow-x-auto">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>域名</th>
+                                    <th>添加时间</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="manageDomainTableBody">
+                                <!-- 域名管理数据 -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- 分页控制 -->
+                    <div class="flex flex-col sm:flex-row justify-between items-center mt-6" id="managePaginationContainer" style="display: none;">
+                        <div class="text-sm text-base-content/60 mb-2 sm:mb-0">
+                            显示第 <span id="manageStartIndex">1</span> - <span id="manageEndIndex">10</span> 条，共 <span id="manageTotalCount">0</span> 条记录
+                        </div>
+                        <div class="join">
+                            <button class="join-item btn btn-sm" id="managePrevPageBtn">上一页</button>
+                            <div class="join-item btn btn-sm btn-disabled" id="managePageInfo">第 1 页</div>
+                            <button class="join-item btn btn-sm" id="manageNextPageBtn">下一页</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 设置页面 -->
+        <div id="settings-page" class="page-content hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- 个人设置 -->
+                <div class="card bg-base-100 shadow-xl">
+                    <div class="card-body">
+                        <h2 class="card-title">个人设置</h2>
+                        <div class="space-y-4">
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text">用户名</span>
+                                </label>
+                                <input type="text" class="input input-bordered" id="profile-username" placeholder="请输入用户名">
+                            </div>
+                            <div class="form-control">
+                                <button class="btn btn-secondary" id="update-username">更新用户名</button>
+                            </div>
+                            
+                            <div class="divider">修改密码</div>
+                            
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text">当前密码</span>
+                                </label>
+                                <input type="password" class="input input-bordered" id="current-password" placeholder="请输入当前密码">
+                            </div>
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text">新密码</span>
+                                </label>
+                                <input type="password" class="input input-bordered" id="new-password" placeholder="请输入新密码">
+                            </div>
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text">确认新密码</span>
+                                </label>
+                                <input type="password" class="input input-bordered" id="confirm-password" placeholder="请再次输入新密码">
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn btn-primary" id="submit-change-password">修改密码</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 系统设置 -->
+                <div class="card bg-base-100 shadow-xl">
+                    <div class="card-body">
+                        <h2 class="card-title">系统设置</h2>
+                        <div class="space-y-4">
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text">检查间隔（分钟）</span>
+                                </label>
+                                <input type="number" class="input input-bordered" id="checkIntervalInput">
+                            </div>
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text">并发限制</span>
+                                </label>
+                                <input type="number" class="input input-bordered" id="concurrentLimitInput">
+                            </div>
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text">查询超时（秒）</span>
+                                </label>
+                                <input type="number" class="input input-bordered" id="timeoutInput">
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn btn-primary" id="saveSystemSettingsBtn">保存系统设置</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 邮件通知设置 -->
+                <div class="card bg-base-100 shadow-xl">
+                    <div class="card-body">
+                        <h2 class="card-title">邮件通知设置</h2>
+                        <div class="space-y-4">
+                            <div class="form-control">
+                                <label class="cursor-pointer label">
+                                    <span class="label-text">启用邮件通知</span>
+                                    <input type="checkbox" class="toggle toggle-primary" id="emailNotificationToggle">
+                                </label>
+                            </div>
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text">SMTP服务器</span>
+                                </label>
+                                <input type="text" class="input input-bordered" id="smtpHost" placeholder="smtp.gmail.com">
+                            </div>
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text">SMTP端口</span>
+                                </label>
+                                <input type="number" class="input input-bordered" id="smtpPort" placeholder="587">
+                            </div>
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text">邮箱用户名</span>
+                                </label>
+                                <input type="email" class="input input-bordered" id="smtpUser" placeholder="your@email.com">
+                            </div>
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text">邮箱密码</span>
+                                </label>
+                                <input type="password" class="input input-bordered" id="smtpPass" placeholder="应用专用密码">
+                            </div>
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text">发件人邮箱</span>
+                                </label>
+                                <input type="email" class="input input-bordered" id="smtpFrom" placeholder="from@email.com">
+                            </div>
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text">收件人邮箱</span>
+                                </label>
+                                <input type="email" class="input input-bordered" id="smtpTo" placeholder="to@email.com">
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn btn-primary" id="saveSmtpBtn">保存SMTP设置</button>
+                                <button class="btn btn-secondary" id="testEmailBtn">测试邮件</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Telegram通知设置 -->
+                <div class="card bg-base-100 shadow-xl">
+                    <div class="card-body">
+                        <h2 class="card-title">Telegram通知设置</h2>
+                        <div class="space-y-4">
+                            <div class="form-control">
+                                <label class="cursor-pointer label">
+                                    <span class="label-text">启用Telegram通知</span>
+                                    <input type="checkbox" class="toggle toggle-primary" id="telegramNotificationToggle">
+                                </label>
+                            </div>
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text">Bot Token</span>
+                                </label>
+                                <input type="text" class="input input-bordered" id="telegramBotToken" placeholder="123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11">
+                            </div>
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text">Chat ID</span>
+                                </label>
+                                <input type="text" class="input input-bordered" id="telegramChatId" placeholder="123456789">
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn btn-primary" id="saveTelegramBtn">保存Telegram设置</button>
+                                <button class="btn btn-secondary" id="testTelegramBtn">测试Telegram</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 系统信息 -->
+                <div class="card bg-base-100 shadow-xl">
+                    <div class="card-body">
+                        <h2 class="card-title">系统信息</h2>
+                        <div id="systemStats" class="space-y-2">
+                            <!-- 系统统计信息 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <!-- 模态框 -->
+    <!-- 域名详情模态框 -->
+    <dialog id="domainModal" class="modal">
+        <div class="modal-box w-11/12 max-w-3xl">
+            <form method="dialog">
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+            </form>
+            <h3 class="font-bold text-lg" id="domainModalTitle">域名详情</h3>
+            <div class="py-4" id="domainDetails">
+                <!-- 域名详情内容 -->
+            </div>
+        </div>
+    </dialog>
+
+    <!-- 通知 Toast -->
+    <div class="toast toast-top toast-end" id="notifications">
+        <!-- 动态通知内容 -->
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>

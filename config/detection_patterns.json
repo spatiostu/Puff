@@ -1,0 +1,54 @@
+{
+  "available_patterns": [
+    "no matching record",
+    "not found",
+    "no data found", 
+    "not exist",
+    "available",
+    "no entries found",
+    "status: free",
+    "状态: 未注册",
+    "未注册",
+    "not registered",
+    "no match"
+  ],
+  "redemption_patterns": [
+    "redemption",
+    "pending restore",
+    "redemptionperiod", 
+    "pending delete restorable",
+    "赎回期"
+  ],
+  "pending_delete_patterns": [
+    "pending delete",
+    "pendingdelete",
+    "to be released",
+    "待删除"
+  ],
+  "expired_patterns": [
+    "expired",
+    "expiry date",
+    "expires:",
+    "已过期"
+  ],
+  "hold_patterns": [
+    "client hold",
+    "server hold", 
+    "registrar hold",
+    "registry hold"
+  ],
+  "transfer_lock_patterns": [
+    "transfer prohibited",
+    "clienttransferprohibited", 
+    "servertransferprohibited"
+  ],
+  "registered_patterns": [
+    "registrar:",
+    "registrant:",
+    "domain status:",
+    "status:",
+    "creation date:",
+    "expiry date:",
+    "name server"
+  ]
+}

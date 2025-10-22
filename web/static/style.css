@@ -1,0 +1,404 @@
+/* 自定义样式，补充DaisyUI */
+
+/* 页面切换 */
+.page-content {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.page-content.hidden {
+    display: none !important;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 导航激活状态 */
+.navbar .menu li a.active {
+    background-color: hsl(var(--p));
+    color: hsl(var(--pc));
+}
+
+/* 状态徽章样式 */
+.status-available {
+    @apply badge-success;
+}
+
+.status-registered {
+    @apply badge-neutral;
+}
+
+.status-redemption {
+    @apply badge-warning;
+}
+
+.status-pending_delete {
+    @apply badge-error;
+}
+
+.status-expired {
+    @apply badge-warning;
+}
+
+.status-error {
+    @apply badge-error;
+}
+
+.status-unknown {
+    @apply badge-ghost;
+}
+
+/* 监控状态徽章 */
+#monitorStatus.running {
+    @apply badge-success;
+}
+
+#monitorStatus.stopped {
+    @apply badge-error;
+}
+
+/* 表格行悬停效果 */
+.table tbody tr:hover {
+    background-color: hsl(var(--b2));
+}
+
+/* 域名链接样式 */
+.domain-link {
+    @apply link link-primary font-medium;
+}
+
+.domain-link:hover {
+    @apply link-hover;
+}
+
+/* 加载状态 */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+/* 响应式表格 */
+@media (max-width: 768px) {
+    .table {
+        font-size: 0.875rem;
+    }
+    
+    .table th,
+    .table td {
+        padding: 0.5rem 0.25rem;
+    }
+    
+    .btn-group .btn {
+        padding: 0.375rem 0.75rem;
+        font-size: 0.875rem;
+    }
+    
+    /* 移动设备上隐藏部分列 */
+    .table th:nth-child(4),
+    .table td:nth-child(4),
+    .table th:nth-child(5),
+    .table td:nth-child(5) {
+        display: none;
+    }
+    
+    /* 调整卡片间距 */
+    .card {
+        margin-bottom: 1rem;
+    }
+    
+    /* 优化移动端按钮组 */
+    .join {
+        flex-direction: column;
+    }
+    
+    .join .join-item {
+        border-radius: 0.375rem !important;
+        margin-bottom: 0.25rem;
+    }
+    
+    .join .join-item:last-child {
+        margin-bottom: 0;
+    }
+}
+
+@media (max-width: 640px) {
+    /* 小屏幕优化 */
+    .navbar-center {
+        display: none !important;
+    }
+    
+    .stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    /* 表格在小屏幕上的优化 */
+    .table-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* 统计卡片动画 */
+.stats .stat {
+    transition: transform 0.2s ease-in-out;
+}
+
+/* 修复域名管理列表hover样式 */
+.domain-item {
+    background-color: hsl(var(--b1)) !important;
+    transition: all 0.2s ease-in-out;
+}
+
+.domain-item:hover {
+    background-color: hsl(var(--b2)) !important;
+    color: hsl(var(--bc)) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 强制覆盖DaisyUI的table样式 */
+.table tr.domain-item:hover,
+.table tr.domain-item:hover td,
+#manageDomainTableBody tr.domain-item:hover,
+#manageDomainTableBody tr.domain-item:hover td {
+    background-color: hsl(var(--b2)) !important;
+    color: hsl(var(--bc)) !important;
+}
+
+/* 覆盖lofi主题的深色hover - 更强的选择器 */
+[data-theme="lofi"] .table tr.domain-item:hover,
+[data-theme="lofi"] .table tr.domain-item:hover td,
+[data-theme="lofi"] #manageDomainTableBody tr.domain-item:hover,
+[data-theme="lofi"] #manageDomainTableBody tr.domain-item:hover td,
+[data-theme="lofi"] .table tbody tr.domain-item:hover,
+[data-theme="lofi"] .table tbody tr.domain-item:hover td {
+    background-color: #f3f4f6 !important;
+    color: #111827 !important;
+}
+
+/* 更通用的表格行hover修复 */
+.table tr.hover:hover,
+.table tr.hover:hover td,
+.table tbody tr:hover,
+.table tbody tr:hover td {
+    background-color: #f3f4f6 !important;
+    color: #111827 !important;
+}
+
+/* 专门针对域名管理表格 */
+#manageDomainTableBody tr,
+#manageDomainTableBody tr td {
+    background-color: transparent !important;
+}
+
+#manageDomainTableBody tr:hover,
+#manageDomainTableBody tr:hover td {
+    background-color: #f3f4f6 !important;
+    color: #111827 !important;
+}
+
+/* 分页控制样式 */
+.pagination-container {
+    border-top: 1px solid hsl(var(--b3));
+    padding-top: 1rem;
+    margin-top: 1rem;
+}
+
+.stats .stat:hover {
+    transform: translateY(-2px);
+}
+
+/* 表单验证样式 */
+.input.error {
+    @apply input-error;
+}
+
+.textarea.error {
+    @apply textarea-error;
+}
+
+/* 成功消息样式 */
+.alert-success {
+    @apply alert alert-success;
+}
+
+.alert-error {
+    @apply alert alert-error;
+}
+
+.alert-warning {
+    @apply alert alert-warning;
+}
+
+.alert-info {
+    @apply alert alert-info;
+}
+
+/* 模态框动画 */
+.modal[open] {
+    animation: modal-pop 0.2s ease-out;
+}
+
+@keyframes modal-pop {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* 域名详情网格 */
+.domain-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.domain-detail-item {
+    @apply p-3 bg-base-200 rounded-lg;
+}
+
+.domain-detail-label {
+    @apply text-sm font-semibold text-base-content/70 mb-1;
+}
+
+.domain-detail-value {
+    @apply text-base font-medium;
+}
+
+/* Toast 通知样式覆盖 */
+.toast .alert {
+    min-width: 300px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* 搜索高亮 */
+.highlight {
+    background-color: hsl(var(--wa));
+    color: hsl(var(--wac));
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.25rem;
+}
+
+/* 批量操作工具栏 */
+.bulk-actions {
+    @apply flex flex-wrap gap-2 p-3 bg-base-200 rounded-lg border-l-4 border-primary;
+}
+
+.bulk-actions.hidden {
+    display: none;
+}
+
+/* 域名状态指示器 */
+.status-indicator {
+    @apply inline-flex items-center gap-1;
+}
+
+.status-indicator::before {
+    content: '';
+    @apply w-2 h-2 rounded-full;
+}
+
+.status-indicator.available::before {
+    @apply bg-success;
+}
+
+.status-indicator.registered::before {
+    @apply bg-neutral;
+}
+
+.status-indicator.redemption::before {
+    @apply bg-warning;
+}
+
+.status-indicator.pending_delete::before {
+    @apply bg-error;
+}
+
+.status-indicator.expired::before {
+    @apply bg-warning;
+}
+
+.status-indicator.error::before {
+    @apply bg-error;
+}
+
+.status-indicator.unknown::before {
+    @apply bg-base-300;
+}
+
+/* 进度条样式 */
+.progress-custom {
+    @apply progress progress-primary;
+}
+
+/* 统计数字动画 */
+.stat-value {
+    transition: all 0.3s ease-in-out;
+}
+
+.stat-value.updating {
+    @apply scale-110 text-primary;
+}
+
+/* 空状态插图 */
+.empty-illustration {
+    @apply text-6xl mb-4 opacity-50;
+}
+
+/* 表格排序指示器 */
+.sort-indicator {
+    @apply inline-block ml-1 transition-transform;
+}
+
+.sort-indicator.asc {
+    transform: rotate(0deg);
+}
+
+.sort-indicator.desc {
+    transform: rotate(180deg);
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .highlight {
+    background-color: hsl(var(--wa));
+    color: hsl(var(--wac));
+}
+
+/* 打印样式 */
+@media print {
+    .navbar,
+    .toast,
+    .modal,
+    .btn {
+        display: none !important;
+    }
+    
+    .page-content {
+        box-shadow: none !important;
+        border: none !important;
+    }
+}

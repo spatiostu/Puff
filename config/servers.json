@@ -1,0 +1,137 @@
+{
+  "com": {
+    "whois": {
+      "server": "whois.verisign-grs.com",
+      "port": 43
+    },
+    "rdap": {
+      "server": "https://rdap.verisign.com/com/v1/"
+    }
+  },
+  "net": {
+    "whois": {
+      "server": "whois.verisign-grs.com", 
+      "port": 43
+    },
+    "rdap": {
+      "server": "https://rdap.verisign.com/net/v1/"
+    }
+  },
+  "org": {
+    "whois": {
+      "server": "whois.pir.org",
+      "port": 43
+    },
+    "rdap": {
+      "server": "https://rdap.publicinterestregistry.org/rdap/"
+    }
+  },
+  "info": {
+    "whois": {
+      "server": "whois.afilias.net",
+      "port": 43
+    },
+    "rdap": {
+      "server": "https://rdap.afilias.net/rdap/afilias/"
+    }
+  },
+  "biz": {
+    "whois": {
+      "server": "whois.neulevel.biz",
+      "port": 43
+    },
+    "rdap": {
+      "server": "https://rdap.nic.biz/"
+    }
+  },
+  "cn": {
+    "whois": {
+      "server": "whois.cnnic.cn",
+      "port": 43
+    },
+    "rdap": {
+      "server": "https://rdap.cnnic.cn/"
+    }
+  },
+  "tw": {
+    "whois": {
+      "server": "whois.twnic.net.tw",
+      "port": 43
+    },
+    "rdap": {
+      "server": "https://rdap.twnic.net.tw/"
+    }
+  },
+  "hk": {
+    "whois": {
+      "server": "whois.hkirc.hk",
+      "port": 43
+    },
+    "rdap": {
+      "server": "https://rdap.hkirc.hk/"
+    }
+  },
+  "jp": {
+    "whois": {
+      "server": "whois.jprs.jp",
+      "port": 43
+    },
+    "rdap": {
+      "server": "https://rdap.jprs.jp/"
+    }
+  },
+  "kr": {
+    "whois": {
+      "server": "whois.kr",
+      "port": 43
+    },
+    "rdap": {
+      "server": "https://rdap.kr/"
+    }
+  },
+  "uk": {
+    "whois": {
+      "server": "whois.nic.uk",
+      "port": 43
+    },
+    "rdap": {
+      "server": "https://rdap.nominet.uk/"
+    }
+  },
+  "de": {
+    "whois": {
+      "server": "whois.denic.de",
+      "port": 43
+    },
+    "rdap": {
+      "server": "https://rdap.denic.de/"
+    }
+  },
+  "fr": {
+    "whois": {
+      "server": "whois.nic.fr",
+      "port": 43
+    },
+    "rdap": {
+      "server": "https://rdap.nic.fr/"
+    }
+  },
+  "xyz": {
+    "whois": {
+      "server": "whois.nic.xyz",
+      "port": 43
+    },
+    "rdap": {
+      "server": "https://rdap.nic.xyz/"
+    }
+  },
+  "top": {
+    "whois": {
+      "server": "whois.nic.top",
+      "port": 43
+    },
+    "rdap": {
+      "server": "https://rdap.nic.top/"
+    }
+  }
+}

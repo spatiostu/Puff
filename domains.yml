@@ -1,0 +1,23 @@
+# 域名监控列表
+# 每行一个域名，支持以下格式：
+# - domain.com
+# - sub.domain.com
+# - 任何有效的域名格式
+
+domains:
+  - baidu.com
+  - alibaba.com
+  - google.com
+  - example.com
+  - test.net
+  - sadpsp.com
+  - sadasdas.com
+  - goosadasdasdasdgle.com
+  - exaasdasddsample.com
+  - tesasdasdasdt.net
+  - tessadt.net
+  - sad1ssspsp.com
+  - sadaasd111sdas.com
+  - goosa22dasdasdasdgle.com
+  - exaa3sdasddsample.com
+  - tesas3dasdasdt.net
