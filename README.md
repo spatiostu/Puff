@@ -204,4 +204,8 @@ docker compose up -d
 
 此时打开 `localhost:8080` 即可打开站点。默认账号 `puff`密码均为 `puffpassword`。
 
+## 星标趋势
+
+[](https://api.star-history.com/svg?repos=spatiostu/Puff&type=date&legend=top-left)
+
 MIT License
