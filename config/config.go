@@ -18,7 +18,7 @@ type Config struct {
 	Log      LogConfig      `json:"log"`
 }
 
-// ServerConfig 服务器配置
+// ServerConfig 服务器配置结构
 type ServerConfig struct {
 	Port     string `json:"port"`
 	Username string `json:"username"`
