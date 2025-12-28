@@ -51,7 +51,7 @@
 
 ### 环境要求
 
-- Go 版本 >=1.22.0
+- Go 版本 >=1.23.4
 
 ### 克隆仓库
 
@@ -139,7 +139,7 @@ WantedBy=multi-user.target
 
 ### 更新版本
 
-如果有新版本更新，下载新版本，将旧版本的文件删除即可。
+如果有新版本更新，下载新版本，将旧版本的文件删除重新运行即可。
 
 ## Docker 部署
 
@@ -148,7 +148,7 @@ WantedBy=multi-user.target
 ### Docker CLI
 
 ``` shell
-docker run -d --restart=unless-stopped -v /data/puff:/app/data -p 8080:8080 --name="Puff" spatiostu/puff:latest
+docker run -d --restart=unless-stopped -v ./data/puff:/app/data -p 8080:8080 --name="Puff" spatiostu/puff:latest
 ```
 
 ### Docker Compose
@@ -161,7 +161,7 @@ services:
     image: spatiostu/puff:latest
     container_name: Puff
     volumes:
-      - /data/puff:/app/data
+      - ./data/puff:/app/data
     restart: unless-stopped
     ports:
       - 8080:8080
@@ -187,7 +187,7 @@ docker rm ID
 docker pull spatiostu/puff:latest
 
 # 输入安装命令
-docker run -d --restart=unless-stopped -v /data/puff:/app/data -p 8080:8080 --name="Puff" spatiostu/puff:latest
+docker run -d --restart=unless-stopped -v ./data/puff:/app/data -p 8080:8080 --name="Puff" spatiostu/puff:latest
 ```
 
 #### Docker Compose
@@ -202,7 +202,7 @@ docker compose up -d
 
 ## 访问
 
-此时打开 `localhost:8080` 即可打开站点。默认账号 `puff`密码均为 `puffpassword`。
+此时打开 `IP:8080` 即可打开站点。默认账号 `puff`密码均为 `puff123`。
 
 ## 星标趋势
 

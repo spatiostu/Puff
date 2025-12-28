@@ -76,7 +76,7 @@ func LoadConfig() (*Config, error) {
 func setDefaults(cfg *Config) {
 	cfg.Server.Port = "8080"
 	cfg.Server.Username = "puff"
-	cfg.Server.Password = "puffpassword"
+	cfg.Server.Password = "puff123"
 
 	cfg.Monitor.CheckInterval = 5 * time.Minute
 	cfg.Monitor.ConcurrentLimit = 50
@@ -208,7 +208,7 @@ func ensureDefaultsIfEmpty(cfg *Config, settings map[string]string) error {
 		updates["server_username"] = cfg.Server.Username
 	}
 	if cfg.Server.Password == "" {
-		cfg.Server.Password = "puffpassword"
+		cfg.Server.Password = "puff123"
 		updates["server_password"] = cfg.Server.Password
 	}
 	if cfg.Server.Port == "" {
